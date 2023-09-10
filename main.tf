@@ -63,3 +63,38 @@ resource "google_dataproc_job" "pyspark" {
   }
 }
 
+
+
+resource "google_bigquery_dataset" "example_dataset" {
+  dataset_id = "dataset_9923"
+  project    = "mlops-project-397918"
+  labels = {
+    environment = "development"
+  }
+}
+
+resource "google_bigquery_table" "example_table" {
+  dataset_id = google_bigquery_dataset.example_dataset.dataset_id
+  project    = "mlops-project-397918"
+  table_id   = "table_9923"
+
+  schema = <<EOF
+  [
+    {
+      "name": "column1",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "column2",
+      "type": "INTEGER",
+      "mode": "NULLABLE"
+    }
+  ]
+  EOF
+
+  labels = {
+    environment = "development"
+  }
+}
+
